@@ -27,8 +27,17 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  if (num % 3 === 0 && num % 5 === 0) {
+    return 'FizzBuzz';
+  }
+  if (num % 3 === 0) {
+    return 'Fizz';
+  }
+  if (num % 5 === 0) {
+    return 'Buzz';
+  }
+  return num;
 }
 
 
@@ -43,8 +52,8 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  return (n !== 1) ? n * getFactorial(n - 1) : 1;
 }
 
 
@@ -60,8 +69,9 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  // eslint-disable-next-line no-mixed-operators
+  return ((n2 - n1) + 1) * (n1 + n2) / 2;
 }
 
 
@@ -80,8 +90,11 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+// eslint-disable-next-line consistent-return
+function isTriangle(a, b, c) {
+  if (a <= 0 || b <= 0 || c <= 0) return false;
+  if (a + b > c && a + c > b && c + b > a) return true;
+  return false;
 }
 
 
@@ -123,8 +136,7 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
 
 
 /**
- * Returns true, if point lies inside the circle, otherwise false.
- * Circle is an object of
+  * Circle is an object of
  *  {
  *     center: {
  *       x: 5,
@@ -148,8 +160,13 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+// eslint-disable-next-line consistent-return
+function isInsideCircle(circle, point) {
+  // eslint-disable-next-line no-restricted-properties, max-len
+  if (Math.pow(point.x - circle.center.x, 2) + Math.pow(point.y - circle.center.y, 2) < Math.pow(circle.radius, 2)) {
+    return true;
+  }
+  return false;
 }
 
 
@@ -164,8 +181,22 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  let res = [];
+  const result = [];
+  for (let i = 0; i < str.length; i += 1) {
+    for (let j = 0; j < str.length; j += 1) {
+      if (str[i] === str[j]) {
+        res.push(str[i]);
+      }
+    }
+    if (res.length === 1) {
+      result.push(res[0]);
+    }
+    res = [];
+  }
+  // eslint-disable-next-line no-unused-expressions
+  return result.length === 0 ? null : result[0];
 }
 
 
@@ -191,8 +222,20 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  // eslint-disable-next-line no-shadow
+  const arr = [a, b].sort((a, b) => a - b);
+  // eslint-disable-next-line prefer-destructuring, no-param-reassign
+  a = arr[0];
+  // eslint-disable-next-line prefer-destructuring, no-param-reassign
+  b = arr[1];
+  let c = '';
+  let d = '';
+  // eslint-disable-next-line no-unused-expressions
+  isStartIncluded ? c = '[' : c = '(';
+  // eslint-disable-next-line no-unused-expressions
+  isEndIncluded ? d = ']' : d = ')';
+  return `${c}${a}, ${b}${d}`;
 }
 
 
@@ -208,8 +251,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -225,8 +268,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return Number(String(num).split('').reverse().join(''));
 }
 
 
@@ -250,8 +293,43 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(n) {
+  let sum = 0;
+  let i = 0;
+  let x = 1;
+  const nArray = n.toString().split('');
+  if (nArray.length % 2 === 0) {
+    while (i < nArray.length) {
+      // eslint-disable-next-line operator-assignment
+      nArray[i] = nArray[i] * 2;
+      if (nArray[i] > 9) {
+        // eslint-disable-next-line operator-assignment
+        nArray[i] = nArray[i] - 9;
+      }
+      i += 2;
+    }
+    // eslint-disable-next-line no-undef
+    for (j = 0; j < nArray.length; j += 1) {
+      // eslint-disable-next-line radix, no-undef
+      sum += parseInt(nArray[j]);
+    }
+  } else {
+    while (x < nArray.length) {
+      // eslint-disable-next-line operator-assignment
+      nArray[x] = nArray[x] * 2;
+      if (nArray[x] > 9) {
+        // eslint-disable-next-line operator-assignment
+        nArray[x] = nArray[x] - 9;
+      }
+      x += 2;
+    }
+    // eslint-disable-next-line no-undef
+    for (j = 0; j < nArray.length; j += 1) {
+      // eslint-disable-next-line radix, no-undef
+      sum += parseInt(nArray[j]);
+    }
+  }
+  return sum % 10 === 0;
 }
 
 /**
